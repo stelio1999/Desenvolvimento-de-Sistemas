@@ -1,17 +1,85 @@
-# Análise de Riscos - Monitora Wuaze
+# SGAA - Matriz de Riscos
 
-## Matriz de Probabilidade e Impacto
-- **Probabilidade:** (B) Baixa, (M) Média, (A) Alta
-- **Impacto:** (B) Baixo, (M) Médio, (A) Alto
+## 📊 Visão Geral
 
-| ID | Risco | Descrição | Probabilidade | Impacto | Mitigação / Plano de Ação |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **R01** | **Mudanças na Política da Google Play** | O Google pode alterar políticas de privacidade, dificultando a publicação ou funcionamento do app. | M | A | Manter-se atualizado com as políticas. Desenvolver o app de forma modular para adaptar rapidamente a novas regras. Distribuir inicialmente por download direto (APK). |
-| **R02** | **Dificuldades Técnicas com Android** | A implementação do modo invisível e monitorização em background pode ser complexa e variar entre versões/fabricantes. | A | A | Pesquisa aprofundada, prototipagem antecipada. Utilizar permissões adequadas e justificar a necessidade. Testar em diversos dispositivos e versões. |
-| **R03** | **Baixa Adesão de Utilizadores** | O produto pode não atingir o público esperado devido a falta de divulgação ou desconfiança. | M | A | Criar campanhas de marketing focadas em segurança. Oferecer um período de teste gratuito. Coletar feedback e melhorar continuamente. |
-| **R04** | **Questões Legais e de Privacidade** | A monitorização de menores pode levantar questões legais se não for implementada com o devido consentimento. | M | A | Incluir termos de uso claros que transfiram a responsabilidade do consentimento para o parente. Garantir que o uso é para menores sob tutela. Consultar um advogado. |
-| **R05** | **Concorrência com Soluções Gratuitas** | Existem aplicações gratuitas que oferecem funcionalidades semelhantes, como o Google Family Link. | A | M | Diferenciar-se pelo preço acessível em MZN, suporte local e funcionalidades mais invasivas (teclado, SMS) que os concorrentes gratuitos não oferecem. |
-| **R06** | **Falhas de Segurança e Vazamento de Dados** | Dados sensíveis de crianças podem ser expostos devido a falhas de segurança. | B | A | Implementar boas práticas de segurança (bcrypt, HTTPS, criptografia). Realizar testes de penetração. Manter backups regulares. Seguir a LGPD local. |
-| **R07** | **Dependência de Serviços Gratuitos** | O projeto depende de Firebase e OpenStreetMap, que podem alterar seus modelos de preços ou termos de uso. | M | M | Acompanhar anúncios das plataformas. Ter um plano de contingência para migrar para alternativas se necessário (ex: servidor próprio de mapas). |
-| **R08** | **Disponibilidade do Desenvolvedor** | Por ser um projeto de uma só pessoa (Stélio), atrasos podem ocorrer por motivos pessoais ou sobrecarga. | M | M | Utilizar a metodologia Scrum para gerir o tempo de forma eficiente. Priorizar o backlog para garantir entrega do mínimo produto viável (MVP) dentro do prazo. |
-| **R09** | **Consumo Elevado de Bateria** | O app pode ser identificado como consumidor excessivo de bateria, levando o sistema operativo a encerrá-lo. | M | A | Otimizar o envio de localização (usar movimento significativo). Utilizar workers eficientes. Testar exaustivamente o consumo. |
+| Métrica | Valor |
+|---------|-------|
+| **Total de Riscos Identificados** | 15 |
+| **Riscos Críticos (Prioridade Alta)** | 6 |
+| **Riscos Médios** | 6 |
+| **Riscos Baixos** | 3 |
+| **Riscos Mitigados** | 12 |
+| **Riscos Aceitos** | 3 |
+
+---
+
+## 🎯 Matriz de Riscos
+
+| ID | Risco | Probabilidade | Impacto | Prioridade | Mitigação | Responsável |
+|----|-------|---------------|---------|------------|-----------|-------------|
+| **R01** | Atraso na entrega por requisitos mal definidos | Média (3) | Alto (4) | **Alta** | • Reuniões semanais com stakeholders<br>• Protótipos validados antes do desenvolvimento<br>• Buffer de contingência de 15% | Product Owner |
+| **R02** | Mudanças frequentes de requisitos | Média (3) | Médio (3) | **Média** | • Processo formal de mudança<br>• Impacto avaliado antes de aprovar<br>• Priorização com Product Owner | Scrum Master |
+| **R03** | Problemas de desempenho com muitos dados | Baixa (2) | Alto (4) | **Alta** | • Testes de carga desde o início<br>• Índices optimizados<br>• Cache implementado (Redis)<br>• Paginação em todas as listas | Tech Lead |
+| **R04** | Falha na integração do mapa OpenStreetMap | Baixa (2) | Médio (3) | **Média** | • Fallback para coordenadas manuais<br>• Cache de mapas offline<br>• Alternativa com Leaflet local | Frontend |
+| **R05** | Segurança de dados comprometida | Baixa (2) | Crítico (5) | **Alta** | • Validação server-side<br>• Prepared statements (SQL injection)<br>• CSRF tokens<br>• Auditoria de segurança<br>• Hash de senhas (bcrypt) | Tech Lead |
+| **R06** | Rotatividade da equipa de desenvolvimento | Baixa (2) | Médio (3) | **Média** | • Documentação detalhada<br>• Code reviews regulares<br>• Pair programming<br>• Conhecimento distribuído | Scrum Master |
+| **R07** | Problemas com servidor/hospedagem | Baixa (2) | Alto (4) | **Alta** | • Backup diário<br>• Ambiente de staging<br>• Plano de contingência para downtime<br>• Monitorização 24/7 | DevOps |
+| **R08** | Resistência dos utilizadores à mudança | Média (3) | Médio (3) | **Média** | • Treinamento antecipado<br>• Documentação clara<br>• Suporte pós-implantação<br>• Programa de pilotos | Product Owner |
+| **R09** | Erros de cálculo de facturas | Baixa (2) | Crítico (5) | **Alta** | • Testes unitários com cenários variados<br>• Validação manual em homologação<br>• Histórico de cálculos para auditoria<br>• Logs detalhados | Backend |
+| **R10** | Falha na integração com serviços de pagamento | Baixa (2) | Médio (3) | **Média** | • Múltiplos métodos de pagamento<br>• Confirmação manual disponível<br>• Logs detalhados de transações | Backend |
+| **R11** | Vazamento de dados sensíveis | Baixa (2) | Crítico (5) | **Alta** | • Criptografia em trânsito (HTTPS)<br>• Dados sensíveis mascarados<br>• Controlo de acesso rigoroso<br>• Auditoria de segurança | Tech Lead |
+| **R12** | Indisponibilidade do sistema | Baixa (2) | Alto (4) | **Alta** | • Arquitectura escalável<br>• Balanceamento de carga<br>• Monitorização proactiva<br>• Plano de recuperação | DevOps |
+| **R13** | Dificuldade de aprendizagem dos utilizadores | Média (3) | Baixo (2) | **Baixa** | • Interface intuitiva<br>• Tooltips e guias<br>• Vídeos tutoriais<br>• Suporte por chat | Frontend |
+| **R14** | Conformidade legal não atendida | Baixa (2) | Alto (4) | **Alta** | • Consultoria jurídica<br>• Termos de uso claros<br>• Consentimento explícito<br>• Política de privacidade | Product Owner |
+| **R15** | Orçamento excedido | Baixa (2) | Médio (3) | **Média** | • Monitorização de custos<br>• Aprovação prévia de aquisições<br>• Uso de ferramentas open-source | Scrum Master |
+
+---
+
+## 📈 Plano de Ação por Risco
+
+### R01 - Atraso na entrega por requisitos mal definidos
+- **Ação Preventiva:** Reuniões de refinamento de backlog semanais
+- **Ação Corretiva:** Replaneamento do sprint, remoção de histórias de baixa prioridade
+- **Responsável:** Product Owner
+- **Prazo:** Contínuo
+
+### R03 - Problemas de desempenho com muitos dados
+- **Ação Preventiva:** Testes de carga com 10.000 registos na Semana 3
+- **Ação Corretiva:** Otimização de queries, adição de índices, implementação de cache
+- **Responsável:** Tech Lead
+- **Prazo:** Semana 4
+
+### R05 - Segurança de dados comprometida
+- **Ação Preventiva:** Auditoria de segurança na Semana 2, revisão de código focada em segurança
+- **Ação Corretiva:** Patch de segurança imediato, notificação de incidente
+- **Responsável:** Tech Lead
+- **Prazo:** Contínuo
+
+### R07 - Problemas com servidor/hospedagem
+- **Ação Preventiva:** Ambiente de staging idêntico à produção, backups diários
+- **Ação Corretiva:** Plano de contingência com rollback em 30 minutos
+- **Responsável:** DevOps
+- **Prazo:** Semana 1
+
+### R09 - Erros de cálculo de facturas
+- **Ação Preventiva:** Testes unitários com 50+ cenários de consumo
+- **Ação Corretiva:** Correção imediata, reemissão de facturas afectadas
+- **Responsável:** Backend
+- **Prazo:** Semana 5
+
+### R14 - Conformidade legal não atendida
+- **Ação Preventiva:** Validação jurídica dos termos e políticas na Semana 1
+- **Ação Corretiva:** Atualização dos documentos legais
+- **Responsável:** Product Owner
+- **Prazo:** Semana 1
+
+---
+
+## 🔄 Ciclo de Gestão de Riscos
+
+1. **Identificação** - Reunião semanal de identificação de novos riscos
+2. **Análise** - Avaliação de probabilidade e impacto
+3. **Priorização** - Classificação por prioridade
+4. **Mitigação** - Definição e implementação de ações
+5. **Monitoramento** - Acompanhamento contínuo
+6. **Revisão** - Atualização da matriz semanalmente
